@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+        <record id="campus_view_form" model="ir.ui.view">
+            <field name="name">campus_view_form</field>
+            <field name="model">campus</field>
+            <field name="arch" type="xml">
+                <form string="campus_form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="country"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="campus_action" model="ir.actions.act_window">
+            <field name="name">Campus</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">campus</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_campus" name="Campus" parent="" action="campus_action"/>
+    </data>
+</odoo>

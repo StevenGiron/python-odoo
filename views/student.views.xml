@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+        <record id="student_view_form" model="ir.ui.view">
+            <field name="name">student_view_form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="after" >
+                    <field name="is_student"/>
+                    <field name="career" attrs="{'invisible': [('is_student', '=', False)]}"/>
+                    <field name="campus_id" attrs="{'invisible': [('is_student', '=', False)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="student_action" model="ir.actions.act_window">
+            <field name="name">Registrar Estudiantes/Candidatos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_studet" name="Registrar Estudiantes/Candidatos" parent="" action="student_action"/>
+    </data>
+</odoo>
