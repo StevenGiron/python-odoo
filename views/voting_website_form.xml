@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record id="voting_website_view_form" model="website.menu">
+            <field name="name">Votaciones</field>
+            <field name="url">votaciones</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence">55</field>
+        </record>
+    </data>
+</odoo>

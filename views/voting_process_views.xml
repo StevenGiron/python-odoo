@@ -1,6 +1,6 @@
 <odoo>
     <data>
-        <record id="voting_procces_view_form" model="ir.ui.view">
+        <record id="voting_process_view_form" model="ir.ui.view">
             <field name="name">voting_process_view_form</field>
             <field name="model">voting.process</field>
             <field name="arch" type="xml">
