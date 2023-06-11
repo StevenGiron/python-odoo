@@ -18,4 +18,3 @@ class VotingProcess(models.Model):
             self.state = 'cerrada'
         else:
             self.state = 'en proceso'
-

@@ -8,7 +8,7 @@
         <template id="voting_website_template" name="Votacion Web">
             <t t-call="website.layout">
                 <link rel="stylesheet" type="text/css" href="/universidad/static/src/css/voting_web.css"/>
-                <div class="container mt-3 d-flex justify-content-center" id="container_voting_web" style="width: 30%;"  >
+                <div class="container mt-3">
                     <form action="/website/voting" method="post" class="form-horizontal">
                         <div class="form-group">
                             <label for="vat" class="control-label col-sm-4">Digite el Nro de Documento</label>
@@ -19,10 +19,24 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="name" class="control-label col-sm-4 mt-3">Digite el Nombre</label>
+                            <label for="country" class="control-label col-sm-4 mt-3">Seleccione el Pais</label>
                             <div class="col-sm-8">
-                                <input type="text" name="name" placeholder="e.g. Hassan Kabande" required="true"
-                                       class="form-control"/>
+                                <select name="country" class="form-control link-style" required="true">
+                                    <t t-foreach="countries" t-as="country">
+                                        <option t-att-value="country.id" t-esc="country.name"/>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="candidate" class="control-label col-sm-4 mt-3">Seleccione el Candidato</label>
+                            <div class="col-sm-8">
+                                <select name="candidate" class="form-control link-style" required="true">
+                                    <t t-foreach="candidates" t-as="candidate">
+                                        <option t-att-value="candidate.id" t-esc="candidate.name"/>
+                                    </t>
+                                </select>
                             </div>
                         </div>
 
