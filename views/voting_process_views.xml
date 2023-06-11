@@ -6,7 +6,7 @@
             <field name="arch" type="xml">
                 <link rel="stylesheet" type="text/css" href="/universidad/static/src/css/voting_process.css"/>
                 <form class="voting_process_form">
-                    <sheet class="container">
+                    <sheet class="container voting_sheet_container">
                         <div class="oe_title">
                              <h1>Procesos de Votacion</h1>
                         </div>

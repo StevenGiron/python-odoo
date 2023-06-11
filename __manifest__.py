@@ -1,5 +1,6 @@
 {
     "name": "Universidad UNIACME",
+    "summary": "Realice votaciones para la universidad UNIACME",
     "author": "Steven Giron Arcila",
     "depends": [
         "base",
