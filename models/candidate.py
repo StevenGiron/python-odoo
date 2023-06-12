@@ -6,7 +6,7 @@ class Candidate(models.Model):
     _inherit = 'res.partner'
 
     is_candidate = fields.Boolean(string='¿Es estudiante?', default=False)
-    number_votes = fields.Integer(string='Cantidad de Votos', compute='_onchange_vote_count')
+    number_votes = fields.Integer(string='Cantidad de Votos', default=0)
     votes = fields.One2many('vote', 'id')
 
     @api.constrains('vat')
@@ -22,7 +22,11 @@ class Candidate(models.Model):
         else:
             self.is_student = True
 
-    @api.onchange('votes')
-    def _onchange_vote_count(self):
-        for candidate in self:
-            self.number_votes = self.env['vote'].search_count([('candidate', '=', candidate.id)])
+    def add_vote(self):
+        self.number_votes += 1
+
+    @property
+    def number_votes_(self):
+        return self.number_votes
+
+

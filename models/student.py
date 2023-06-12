@@ -1,5 +1,5 @@
 from odoo import api, fields, models
-
+from odoo.exceptions import ValidationError
 
 class Student(models.Model):
     _inherit = 'res.partner'
@@ -15,3 +15,16 @@ class Student(models.Model):
             self.is_candidate = False
         else:
             self.is_candidate = True
+
+    @property
+    def voted_(self):
+        return self.voted
+
+    @voted_.setter
+    def voted_(self, value):
+        self.voted = value
+
+    def check_voted_(self):
+        if self.voted_:
+            raise ValidationError('Ya has votado anteriormente')
+

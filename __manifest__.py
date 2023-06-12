@@ -6,7 +6,6 @@
         "base",
         "base_geolocalize",
         "website",
-
     ],
     "data": [
         "security/ir.model.access.csv",
@@ -15,6 +14,21 @@
         "views/voting_process_views.xml",
         "views/voting_website_form.xml",
     ],
+    'qweb': [
+        "views/voting_website_form.xml",
+    ],
+    'js': [
+        'static/src/js/voting/voting_script.js',
+    ],
+
+    "assets": {
+        "web.assets_backend": [
+
+        ],
+        'web.assets_frontend': [
+            "static/src/js/voting/voting_script.js"
+        ],
+    },
     "application": True,
     "installable": True,
 }
