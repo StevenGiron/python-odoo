@@ -1,6 +1,10 @@
 from odoo import api, fields, models, _
 from odoo.http import request
-# from tools.get_datetime_country import get_datetime_country_
+from odoo.exceptions import ValidationError
+
+import pytz
+from datetime import datetime
+
 
 
 class VotingProcess(models.Model):
@@ -28,12 +32,23 @@ class VotingProcess(models.Model):
     def get_candidates(self):
         return self.candidates
 
+    def get_datetime_country_(self, country):
+        try:
+            tz_by_country = pytz.country_timezones[country]
+
+            tz_country = pytz.timezone(tz_by_country[0])
+
+            current_datetime = datetime.now(tz_country)
+            return current_datetime.strftime('%Y-%m-%d %H:%M:%S')
+        except KeyError:
+            return "País no válido o no se encontró información sobre la zona horaria."
+
     def check_datetime_availability(self, country_id):
         # Obtener el pais desde el que se esta votando
         from_country = request.env['res.country'].sudo().search([('id', '=', country_id)]).code
 
-        #country_datetime = get_datetime_country_(from_country)
+        country_datetime = self.get_datetime_country_(from_country)
 
-        #if country_datetime > self.end_date:
-         #   raise ValidationError('Esta votacion esta cerrada para su pais')
+        if country_datetime > self.end_date:
+            raise ValidationError('Esta votacion esta cerrada para su pais')
 

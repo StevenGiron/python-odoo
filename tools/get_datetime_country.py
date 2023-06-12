@@ -1,3 +1,4 @@
+"""
 import pytz
 from datetime import datetime
 
@@ -12,3 +13,4 @@ def get_datetime_country_(country):
         return current_datetime.strftime('%Y-%m-%d %H:%M:%S')
     except KeyError:
         return "País no válido o no se encontró información sobre la zona horaria."
+"""
