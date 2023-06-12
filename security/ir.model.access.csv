@@ -1,4 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_campus,model_access_campus,model_campus,,1,1,1,1
 access_voting_process,model_access_voting_process,model_voting_process,,1,1,1,1
-access_vote,mode_access_vote,model_vote,,1,1,1,1
+access_vote,model_access_vote,model_vote,,1,1,1,1
+access_import_wizard,model_access_import_wizard,model_import_wizard,,1,1,1,1

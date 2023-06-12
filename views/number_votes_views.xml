@@ -1,0 +1,24 @@
+<odoo>
+    <data>
+
+        <record id="votes_pivot_view" model="ir.ui.view">
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <pivot>
+                    <field name="name"  type="row"/>
+                    <field name="image_1920" type="col"/>
+                    <field name="number_votes" type="col"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="votes_action" model="ir.actions.act_window">
+            <field name="name">votes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">pivot</field>
+        </record>
+
+        <menuitem id="menu_root" name="Recuento de Votos"  web_icon="fa-cogs" action="votes_action"/>
+    </data>
+</odoo>

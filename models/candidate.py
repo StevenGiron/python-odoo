@@ -6,7 +6,7 @@ from odoo.exceptions import ValidationError
 class Candidate(models.Model):
     _inherit = 'res.partner'
 
-    is_candidate = fields.Boolean(string='¿Es estudiante?', default=False)
+    is_candidate = fields.Boolean(string='¿Es candidato?', default=False)
     number_votes = fields.Integer(string='Cantidad de Votos', default=0)
     votes = fields.One2many('vote', 'id')
 

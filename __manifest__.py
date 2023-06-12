@@ -13,7 +13,8 @@
         "views/student.views.xml",
         "views/voting_process_views.xml",
         "views/voting_website_form.xml",
-        "views/candadites_votes.views.xml",
+        "views/number_votes_views.xml",
+        "wizards/database_wizard_view.xml"
     ],
     'qweb': [
         "views/voting_website_form.xml",
