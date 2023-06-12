@@ -8,7 +8,7 @@ class Voting(http.Controller):
     def voting_web_form(self, **post):
 
         # Obtener el id del proceso de votacion
-        voting_process_id = int(post.get('voting_process', 8))
+        voting_process_id = int(post.get('voting_process', 10))
 
         # Obtener los procesos de votacion
         voting_processes = request.env['voting.process'].sudo().search([('state', '=', 'en proceso')])
@@ -26,13 +26,13 @@ class Voting(http.Controller):
                                                                            })
 
     @http.route('/website/voting', type='http', auth='public', csrf=False, website=True)
-    def vote(self, **post):
+    def vote(self, **kwargs):
         try:
             # Obtener el id del pais desde el que se esta votando
-            from_country_id = int(post.get('country'))
+            from_country_id = int(kwargs.get('country'))
 
             # Obtener id del proceso al que se votara
-            voting_process_id = int(post.get('voting_process', 8))
+            voting_process_id = int(kwargs.get('voting_process'))
 
             # Obtener el proceso de votacion al que se votara
             voting_process = request.env['voting.process'].browse(voting_process_id)
@@ -44,7 +44,7 @@ class Voting(http.Controller):
             voting_process.check_state_()
 
             # Obtener documento del votante
-            vat = int(post.get('vat'))
+            vat = int(kwargs.get('vat'))
 
             # Obtener el estudiante que esta votando
             student = request.env['res.partner'].sudo().search(['&', ('vat', '=', vat), ('is_student', '=', True)])
@@ -57,19 +57,20 @@ class Voting(http.Controller):
                 raise ValidationError('Debe ser estudiante para poder votar')
 
             # Obtener el id del candidato
-            candidate_id = int(post.get('candidate'))
+            candidate_id = int(kwargs.get('candidate'))
 
             # Obtener al candidato
             candidate = request.env['res.partner'].sudo().search(['&', ('id', '=', candidate_id), ('is_candidate', '=', True)])
 
             if candidate:
-                candidate.add_vote()
-                candidate.write({'number_votes': candidate.number_votes_})
+                candidate.compute_num_votes(candidate.id)
+                candidate.write({'number_votes': candidate.number_votes_ + 1})
             else:
                 raise ValidationError('Seleccione un candidato')
 
+
             new_vote = request.env['vote'].create({
-                'candidate': candidate.vat,
+                'candidate': candidate.id,
                 'voting_process': voting_process.id_,
             })
 

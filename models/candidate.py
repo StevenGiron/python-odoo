@@ -2,6 +2,7 @@ from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
+
 class Candidate(models.Model):
     _inherit = 'res.partner'
 
@@ -14,6 +15,13 @@ class Candidate(models.Model):
         for candidate in self:
             if candidate.vat and self.search([('id', '!=', candidate.id), ('vat', '=', candidate.vat)]):
                 raise ValidationError('El nro. de identificacion debe ser unico')
+
+    @api.depends('votes')
+    def compute_num_votes(self, candidate_id):
+        votes = self.env['vote'].search([('candidate', '=', candidate_id)])
+        if votes:
+            self.number_votes = len(votes)
+
 
     @api.onchange('is_candidate')
     def _onchange_is_candidate(self):
