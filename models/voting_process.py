@@ -26,6 +26,10 @@ class VotingProcess(models.Model):
         else:
             self.state = 'en proceso'
 
+    @property
+    def id_(self):
+        return self.id
+
     def check_state_(self):
         if self.state == 'cerrada':
             raise ValidationError('Esta votacion esta cerrada')
@@ -38,8 +42,9 @@ class VotingProcess(models.Model):
 
             tz_country = pytz.timezone(tz_by_country[0])
 
-            current_datetime = datetime.now(tz_country)
-            return current_datetime.strftime('%Y-%m-%d %H:%M:%S')
+            current_datetime = datetime.now(pytz.UTC).astimezone(tz_country)
+
+            return current_datetime
         except KeyError:
             return "País no válido o no se encontró información sobre la zona horaria."
 
@@ -49,6 +54,6 @@ class VotingProcess(models.Model):
 
         country_datetime = self.get_datetime_country_(from_country)
 
-        if country_datetime > self.end_date:
+        if country_datetime > self.end_date.astimezone(country_datetime.tzinfo):
             raise ValidationError('Esta votacion esta cerrada para su pais')
 

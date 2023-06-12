@@ -24,6 +24,10 @@ class Student(models.Model):
     def voted_(self, value):
         self.voted = value
 
+    @property
+    def vat_(self):
+        return self.vat
+
     def check_voted_(self):
         if self.voted_:
             raise ValidationError('Ya has votado anteriormente')

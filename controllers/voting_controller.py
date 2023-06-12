@@ -27,46 +27,53 @@ class Voting(http.Controller):
 
     @http.route('/website/voting', type='http', auth='public', csrf=False, website=True)
     def vote(self, **post):
+        try:
+            # Obtener el id del pais desde el que se esta votando
+            from_country_id = int(post.get('country'))
 
-        # Obtener el id del pais desde el que se esta votando
-        from_country_id = int(post.get('country'))
+            # Obtener id del proceso al que se votara
+            voting_process_id = int(post.get('voting_process', 8))
 
-        # Obtener id del proceso al que se votara
-        voting_process_id = int(post.get('voting_process', 8))
+            # Obtener el proceso de votacion al que se votara
+            voting_process = request.env['voting.process'].browse(voting_process_id)
 
-        # Obtener el proceso de votacion al que se votara
-        voting_process = request.env['voting.process'].browse(voting_process_id)
+            # Validar la disponbilidad del proceso de votacion desde otro pais
+            voting_process.check_datetime_availability(from_country_id)
 
-        # Validar la disponbilidad del proceso de votacion desde otro pais
-        voting_process.check_datetime_availability(from_country_id)
+            # Validar el estado de la votacion
+            voting_process.check_state_()
 
-        # Validar el estado de la votacion
-        voting_process.check_state_()
+            # Obtener documento del votante
+            vat = int(post.get('vat'))
 
-        # Obtener documento del votante
-        vat = int(post.get('vat'))
+            # Obtener el estudiante que esta votando
+            student = request.env['res.partner'].sudo().search(['&', ('vat', '=', vat), ('is_student', '=', True)])
 
-        # Obtener el estudiante que esta votando
-        student = request.env['res.partner'].sudo().search(['&', ('vat', '=', vat), ('is_student', '=', True)])
+            # Validar las condiciones del estudiante
+            if student:
+                student.check_voted_()
+                student.write({'voted': True})
+            else:
+                raise ValidationError('Debe ser estudiante para poder votar')
 
-        # Validar las condiciones del estudiante
-        if student:
-            student.check_voted_()
-            student.write({'voted': True})
-        else:
-            raise ValidationError('Debe ser estudiante para poder votar')
+            # Obtener el id del candidato
+            candidate_id = int(post.get('candidate'))
 
-        # Obtener el id del candidato
-        candidate_id = int(post.get('candidate'))
+            # Obtener al candidato
+            candidate = request.env['res.partner'].sudo().search(['&', ('id', '=', candidate_id), ('is_candidate', '=', True)])
 
-        # Obtener al candidato
-        candidate = request.env['res.partner'].sudo().search(['&', ('id', '=', candidate_id), ('is_candidate', '=', True)])
+            if candidate:
+                candidate.add_vote()
+                candidate.write({'number_votes': candidate.number_votes_})
+            else:
+                raise ValidationError('Seleccione un candidato')
 
-        if candidate:
-            candidate.add_vote()
-            candidate.write({'number_votes': candidate.number_votes_})
-        else:
-            raise ValidationError('Seleccione un candidato')
+            new_vote = request.env['vote'].create({
+                'candidate': candidate.vat,
+                'voting_process': voting_process.id_,
+            })
+
+        except Exception as e:
+            raise ValidationError(e)
 
         return http.request.redirect('/votaciones')
-
