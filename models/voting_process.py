@@ -1,7 +1,6 @@
 from odoo import api, fields, models, _
 from odoo.http import request
 from odoo.exceptions import ValidationError
-
 import pytz
 from datetime import datetime
 

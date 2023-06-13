@@ -36,5 +36,3 @@ class Candidate(models.Model):
     @property
     def number_votes_(self):
         return self.number_votes
-
-
