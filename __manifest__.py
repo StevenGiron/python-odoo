@@ -19,16 +19,12 @@
     'qweb': [
         "views/voting_website_form.xml",
     ],
-    'js': [
-        'static/src/js/voting/voting_script.js',
-    ],
-
     "assets": {
         "web.assets_backend": [
-
+            "static/src/js/voting_script.js"
         ],
         'web.assets_frontend': [
-            "static/src/js/voting/voting_script.js"
+
         ],
     },
     "application": True,

@@ -1,7 +1,7 @@
 from odoo import http
 from odoo.http import request
 from odoo.exceptions import ValidationError
-
+import json
 
 class Voting(http.Controller):
     @http.route('/votaciones', type='http', auth='public', website=True)
@@ -9,6 +9,7 @@ class Voting(http.Controller):
 
         # Obtener el id del proceso de votacion
         voting_process_id = int(post.get('voting_process', 10))
+
 
         # Obtener los procesos de votacion
         voting_processes = request.env['voting.process'].sudo().search([('state', '=', 'en proceso')])
@@ -24,6 +25,20 @@ class Voting(http.Controller):
                                                                            'candidates': candidates,
                                                                            'voting_processes': voting_processes,
                                                                            })
+
+    @http.route('/get_candidates/<int:voting_process_id>', type='http', auth='public', website=True)
+    def get_candidates(self, voting_process_id, **post):
+
+        voting_process = request.env['voting.process'].browse(voting_process_id)
+        candidates = voting_process.candidates
+
+        # Convertir los candidatos a una lista de diccionarios
+        candidate_data = [{'value': candidate.id, 'label': candidate.name} for candidate in candidates]
+
+        # Devolver los candidatos en formato JSON
+        return json.dumps({'candidates': candidate_data})
+
+
 
     @http.route('/website/voting', type='http', auth='public', csrf=False, website=True)
     def vote(self, **kwargs):
