@@ -1,6 +1,7 @@
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
+
 class Student(models.Model):
     _inherit = 'res.partner'
 
@@ -31,4 +32,3 @@ class Student(models.Model):
     def check_voted_(self):
         if self.voted_:
             raise ValidationError('Ya has votado anteriormente')
-

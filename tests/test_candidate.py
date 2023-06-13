@@ -10,12 +10,12 @@ class TestCandidate(TransactionCase):
         self.candidate1 = self.env['res.partner'].create({
             'name': 'Candidate 1',
             'is_candidate': True,
-            'vat': '123456789'
+            'vat': '1234'
         })
         self.candidate2 = self.env['res.partner'].create({
             'name': 'Candidate 2',
             'is_candidate': True,
-            'vat': '987654321'
+            'vat': '4321'
         })
 
     def test_check_documento_unico(self):
@@ -23,11 +23,10 @@ class TestCandidate(TransactionCase):
             self.env['res.partner'].create({
                 'name': 'Candidate 3',
                 'is_candidate': True,
-                'vat': '123456789'
+                'vat': '1234'
             })
 
     def test_onchange_is_candidate(self):
-
         self.candidate1.is_candidate = True
         self.assertFalse(self.candidate1.is_student)
 
@@ -35,7 +34,6 @@ class TestCandidate(TransactionCase):
         self.assertTrue(self.candidate1.is_student)
 
     def test_add_vote(self):
-
         self.assertEqual(self.candidate1.number_votes, 0)
 
         self.candidate1.add_vote()

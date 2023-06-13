@@ -33,9 +33,13 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="voting_process" class="control-label col-sm-4 mt-3">Seleccione el Proceso de Votacion</label>
+                            <label for="voting_process" class="control-label col-sm-4 mt-3">Seleccione el Proceso de
+                                Votacion
+                            </label>
                             <div class="col-sm-8">
-                                <select name="voting_process" id="voting_process_id" onchange="onchange_voting_process()" class="form-control link-style" required="true">
+                                <select name="voting_process" id="voting_process_id"
+                                        onchange="onchange_voting_process()" class="form-control link-style"
+                                        required="true">
                                     <t t-foreach="voting_processes" t-as="voting_process">
                                         <option t-att-value="voting_process.id" t-esc="voting_process.description"/>
                                     </t>
@@ -46,7 +50,8 @@
                         <div class="form-group">
                             <label for="candidate" class="control-label col-sm-4 mt-3">Seleccione el Candidato</label>
                             <div class="col-sm-8">
-                                <select  name="candidate" id="candidate_id" class="form-control link-style" required="true">
+                                <select name="candidate" id="candidate_id" class="form-control link-style"
+                                        required="true">
                                     <t t-foreach="candidates" t-as="candidate" id="can">
                                         <option t-att-value="candidate.id" t-esc="candidate.name"/>
                                     </t>

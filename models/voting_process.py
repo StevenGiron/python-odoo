@@ -5,7 +5,6 @@ import pytz
 from datetime import datetime
 
 
-
 class VotingProcess(models.Model):
     _name = 'voting.process'
 
@@ -32,6 +31,7 @@ class VotingProcess(models.Model):
     def check_state_(self):
         if self.state == 'cerrada':
             raise ValidationError('Esta votacion esta cerrada')
+
     def get_candidates(self):
         return self.candidates
 
@@ -55,4 +55,3 @@ class VotingProcess(models.Model):
 
         if country_datetime > self.end_date.astimezone(country_datetime.tzinfo):
             raise ValidationError('Esta votacion esta cerrada para su pais')
-

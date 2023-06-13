@@ -2,6 +2,7 @@ from odoo import models, fields, api
 import csv
 import psycopg2
 
+
 class ImportWizard(models.TransientModel):
     _name = 'import.wizard'
 

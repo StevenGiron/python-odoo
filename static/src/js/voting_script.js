@@ -11,11 +11,9 @@ function onchange_voting_process() {
 
             let candidates = data.candidates;
 
-            console.log(candidates);
-
             $.each(candidates, function(index, candidate) {
                 const optionElement = $('<option>');
-                optionElement.val(candidate.id);
+                optionElement.val(candidate.value);
                 optionElement.text(candidate.label);
                 candidatesSelect.append(optionElement);
             });

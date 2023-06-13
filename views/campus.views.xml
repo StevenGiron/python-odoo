@@ -14,7 +14,7 @@
                 </form>
             </field>
         </record>
-        
+
         <record id="campus_action" model="ir.actions.act_window">
             <field name="name">Campus</field>
             <field name="type">ir.actions.act_window</field>

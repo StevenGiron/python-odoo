@@ -3,13 +3,13 @@ from odoo.http import request
 from odoo.exceptions import ValidationError
 import json
 
+
 class Voting(http.Controller):
     @http.route('/votaciones', type='http', auth='public', website=True)
     def voting_web_form(self, **post):
 
         # Obtener el id del proceso de votacion
         voting_process_id = int(post.get('voting_process', 10))
-
 
         # Obtener los procesos de votacion
         voting_processes = request.env['voting.process'].sudo().search([('state', '=', 'en proceso')])
@@ -37,8 +37,6 @@ class Voting(http.Controller):
 
         # Devolver los candidatos en formato JSON
         return json.dumps({'candidates': candidate_data})
-
-
 
     @http.route('/website/voting', type='http', auth='public', csrf=False, website=True)
     def vote(self, **kwargs):
@@ -75,14 +73,14 @@ class Voting(http.Controller):
             candidate_id = int(kwargs.get('candidate'))
 
             # Obtener al candidato
-            candidate = request.env['res.partner'].sudo().search(['&', ('id', '=', candidate_id), ('is_candidate', '=', True)])
+            candidate = request.env['res.partner'].sudo().search(
+                ['&', ('id', '=', candidate_id), ('is_candidate', '=', True)])
 
             if candidate:
                 candidate.compute_num_votes(candidate.id)
                 candidate.write({'number_votes': candidate.number_votes_ + 1})
             else:
                 raise ValidationError('Seleccione un candidato')
-
 
             new_vote = request.env['vote'].create({
                 'candidate': candidate.id,

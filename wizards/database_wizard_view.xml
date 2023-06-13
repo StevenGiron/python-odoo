@@ -16,7 +16,7 @@
                 </form>
             </field>
         </record>
-         <record id="database_wizard_action" model="ir.actions.act_window">
+        <record id="database_wizard_action" model="ir.actions.act_window">
             <field name="name">Database Wizard</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">import.wizard</field>
